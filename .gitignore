@@ -4,4 +4,7 @@
 .DS_Store
 /bin
 .git
-library/
+.iml
+.idea
+target
+log/
