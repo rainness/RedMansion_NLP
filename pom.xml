@@ -11,9 +11,9 @@
     <packaging>jar</packaging>
 
     <scm>
-        <connection>scm:git:https://github.com/Rainness/rainness.git</connection>
-        <developerConnection>scm:git:https://github.com/Rainness/rainness.git</developerConnection>
-        <url>scm:git:https://github.com/Rainness/rainness.git</url>
+        <connection>scm:git:https://github.com/rainness/RedMansion_NLP.git</connection>
+        <developerConnection>scm:git:https://github.com/rainness/RedMansion_NLP.git</developerConnection>
+        <url>scm:git:https://github.com/rainness/RedMansion_NLP.git</url>
         <tag>HEAD</tag>
     </scm>
 
