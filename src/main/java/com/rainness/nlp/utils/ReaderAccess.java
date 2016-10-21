@@ -1,4 +1,4 @@
-package com.rainness.nlp;
+package com.rainness.nlp.utils;
 
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
