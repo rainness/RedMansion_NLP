@@ -8,7 +8,9 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.io.Closeable;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by zhangjinpeng on 16-10-20.
@@ -44,20 +46,46 @@ public class MapReduceUtils {
         return sum;
     }
 
-    public static void write(Path dst, Configuration conf) {
+    public static void write(Path dst, Configuration conf, String result) {
         FileSystem fs = null;
         FSDataOutputStream output = null;
         try {
             fs = FileSystem.get(conf);
             output = fs.create(dst);
-            for (double value : parameters) {
+            output.writeUTF(result);
+        } catch (Exception e) {
+            LOG.error("Class MapReduceUtils function[write] error:" + e);
+        } finally {
+          closeQuietly(fs);
+          closeQuietly(output);
+        }
+    }
+
+    public static void batchWrite(Path dst, Configuration conf, List<String> resultList) {
+        FileSystem fs = null;
+        FSDataOutputStream output = null;
+        try {
+            fs = FileSystem.get(conf);
+            output = fs.create(dst);
+            for (String result : resultList) {
                 //add '\n' to result in order to check
-                output.writeUTF(value + "\n");
+                output.writeUTF(result + "\n");
             }
             fs.close();
             output.close();
         } catch (Exception e) {
+            closeQuietly(fs);
+            closeQuietly(output);
+        }
+    }
 
+    private static <T extends Closeable> void closeQuietly(T obj) {
+        try {
+            if (obj != null) {
+                obj.close();
+            }
+        } catch (Exception e) {
+            //ignore
         }
     }
 }
