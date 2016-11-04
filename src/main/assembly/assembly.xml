@@ -12,8 +12,9 @@
     <fileSets>
         <fileSet>
             <outputDirectory>/</outputDirectory>
+            <fileMode>0644</fileMode>
             <includes>
-                <include>README.md</include>
+                <include>ReadMe.md</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -21,13 +22,13 @@
             <outputDirectory>/bin</outputDirectory>
             <fileMode>0755</fileMode>
             <includes>
-                <include>run.sh</include>
+                <include>word-analysis</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>paper</directory>
             <outputDirectory>/paper</outputDirectory>
-            <fileMode>0755</fileMode>
+            <fileMode>0644</fileMode>
             <includes>
                 <include>*</include>
             </includes>

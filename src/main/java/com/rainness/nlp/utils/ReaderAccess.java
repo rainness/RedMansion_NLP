@@ -8,7 +8,7 @@ import java.io.FileReader;
 import java.util.Map;
 
 /**
- * Created by zhangjinpeng on 16-10-20.
+ * Created by rainness on 16-10-20.
  */
 public class ReaderAccess {
 
@@ -29,6 +29,7 @@ public class ReaderAccess {
                 wordMap.put(array[0], Integer.valueOf(array[1]));
             }
         } catch (Exception e) {
+            LOG.error("Class ReaderAccess function[readWordMap] error:" + e);
             throw new AssertionError(e);
         } finally {
             if (bin != null) {

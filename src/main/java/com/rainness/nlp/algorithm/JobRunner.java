@@ -1,10 +1,10 @@
-package com.rainness.nlp;
+package com.rainness.nlp.algorithm;
 
 import com.lexicalscope.jewel.cli.CliFactory;
 import com.lexicalscope.jewel.cli.Option;
-import com.rainness.nlp.algorithm.ItemSetModel;
 import com.rainness.nlp.utils.Constants;
 import com.rainness.nlp.utils.FileSeperator;
+import com.rainness.nlp.word.WordFrequencyLearning;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Created by zhangjinpeng on 9/11/16.
+ * Created by rainness on 9/11/16.
  */
 public class JobRunner extends Configured implements Tool {
 
@@ -54,16 +54,16 @@ public class JobRunner extends Configured implements Tool {
             conf.set(Constants.FILE_SEPARATOR, FileSeperator.TAB_SEPERATOR);
             CommandLine cli = CliFactory.parseArguments(CommandLine.class, args);
             WordFrequencyLearning.learn(cli.rawInputPath(), cli.wordFrequencyOutputPath(), conf);
-            ItemSetModel model = new ItemSetModel(
-                    cli.wordFrequencyOutputPath().toString(),
-                    cli.minSupport(),
-                    cli.minConfidence(),
-                    10,
-                    "local",
-                    FileSeperator.TAB_SEPERATOR,
-                    cli.itemsetOutputPath(),
-                    cli.ruleOutputPath());
-            model.train();
+//            ItemSetModel model = new ItemSetModel(
+//                    cli.wordFrequencyOutputPath().toString(),
+//                    cli.minSupport(),
+//                    cli.minConfidence(),
+//                    10,
+//                    "local",
+//                    FileSeperator.TAB_SEPERATOR,
+//                    cli.itemsetOutputPath(),
+//                    cli.ruleOutputPath());
+//            model.train();
         } catch (Exception e) {
             LOG.error("Class JobRunner function[run] error:" + e);
             throw new AssertionError(e);

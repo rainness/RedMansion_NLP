@@ -1,6 +1,6 @@
 package com.rainness.nlp.utils;
 
-import com.rainness.nlp.WordFrequencyLearning;
+import com.rainness.nlp.word.WordFrequencyLearning;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
@@ -13,18 +13,19 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by zhangjinpeng on 16-10-20.
+ * Created by rainness on 16-10-20.
  */
 public class MapReduceUtils {
 
     private static final Logger LOG = LoggerFactory.getLogger(WordFrequencyLearning.class);
+    private static final long BLOCK_SIZE = 1044841824L;  //每个reduce负责一个G数据
 
     public static int guessReducerNumber(Path[] paths, Configuration conf) throws IOException {
         long blockTotalSize = 0;
         for (int i = 0; i < paths.length; i++) {
             blockTotalSize += guessblockSize(paths[i], conf);
         }
-        int reducerNumber = (int)(blockTotalSize / 1044841824L);  //1G
+        int reducerNumber = (int)(blockTotalSize / BLOCK_SIZE);  //1G
         return Math.max(1, reducerNumber);
     }
 

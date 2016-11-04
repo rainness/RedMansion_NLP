@@ -1,4 +1,4 @@
-package com.rainness.nlp;
+package com.rainness.nlp.word;
 
 import com.google.common.base.Strings;
 import com.rainness.nlp.utils.MapReduceUtils;
@@ -6,7 +6,6 @@ import com.rainness.nlp.utils.WordAnalysis;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Job;
@@ -19,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Iterator;
 
 /**
- * Created by zhangjinpeng on 9/11/16.
+ * Created by rainness on 9/11/16.
  */
 public class WordFrequencyLearning {
 
@@ -39,7 +38,7 @@ public class WordFrequencyLearning {
                 try {
                     context.write(new Text(String.valueOf(word)), new IntWritable(1));
                 } catch (Exception e) {
-                    LOG.error("Class WordFrequencyMapper map exception, error message:" + e);
+                    LOG.error("Class WordFrequencyLearning.WordFrequencyMapper function[map], error:" + e);
                     throw new AssertionError(e);
                 }
             }
@@ -47,7 +46,7 @@ public class WordFrequencyLearning {
     }
 
     private static final class WordFrequencyReducer
-            extends Reducer<Text, IntWritable, NullWritable, Text> {
+            extends Reducer<Text, IntWritable, Text, IntWritable> {
 
         @Override
         public void reduce(
@@ -61,13 +60,13 @@ public class WordFrequencyLearning {
                 return;
             }
             while (iterator.hasNext()) {
-                iterator.next();
-                count++;
+                int value = iterator.next().get();
+                count += value;
             }
             try {
-                context.write(NullWritable.get(), new Text(key.toString() + "\t" + count));
+                context.write(key, new IntWritable(count));
             } catch (Exception e) {
-                LOG.error("Class WordFrequencyReducer reduce exception, error message:" + e);
+                LOG.error("Class WordFrequencyLearning.WordFrequencyReducer function[reduce], error:" + e);
                 throw new AssertionError(e);
             }
         }
@@ -80,18 +79,19 @@ public class WordFrequencyLearning {
             TextInputFormat.setInputPaths(job, inputPath);
             TextOutputFormat.setOutputPath(job, outputPath);
             job.setMapperClass(WordFrequencyMapper.class);
+            job.setCombinerClass(WordFrequencyReducer.class);
             job.setReducerClass(WordFrequencyReducer.class);
             job.setMapOutputKeyClass(Text.class);
             job.setMapOutputValueClass(IntWritable.class);
-            job.setOutputKeyClass(NullWritable.class);
-            job.setOutputValueClass(Text.class);
+            job.setOutputKeyClass(Text.class);
+            job.setOutputValueClass(IntWritable.class);
             job.setInputFormatClass(TextInputFormat.class);
             job.setOutputFormatClass(TextOutputFormat.class);
             int reducerNumber = MapReduceUtils.guessReducerNumber(new Path[]{inputPath}, conf);
             job.setNumReduceTasks(reducerNumber);
             job.waitForCompletion(true);
         } catch (Exception e) {
-            LOG.error("Class WordFrequencyLearning learn exception, error message:" + e);
+            LOG.error("Class WordFrequencyLearning function[learn], error:" + e);
             throw new AssertionError(e);
         }
     }

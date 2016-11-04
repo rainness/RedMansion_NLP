@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by zhangjinpeng on 16-10-20.
+ * Created by rainness on 16-10-20.
  */
 public class ItemSetModel implements Model, Serializable {
 
