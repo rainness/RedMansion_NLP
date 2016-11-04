@@ -2,7 +2,6 @@
 .project
 .settings/
 .DS_Store
-/bin
 .git
 *.iml
 .idea
