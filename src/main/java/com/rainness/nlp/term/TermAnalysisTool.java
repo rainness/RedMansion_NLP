@@ -5,7 +5,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.util.Tool;
 
 /**
- * Created by netease on 16-11-4.
+ * Created by rainness on 16-11-4.
  */
 public class TermAnalysisTool extends Configured implements Tool {
 

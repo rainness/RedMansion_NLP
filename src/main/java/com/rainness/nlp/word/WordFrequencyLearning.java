@@ -36,6 +36,12 @@ public class WordFrequencyLearning {
             }
             for (char word : line.toCharArray()) {
                 try {
+                    if (WordAnalysis.isPunctuation(word)) {
+                        continue;
+                    }
+                    if (!WordAnalysis.isChinese(word)) {
+                        continue;
+                    }
                     context.write(new Text(String.valueOf(word)), new IntWritable(1));
                 } catch (Exception e) {
                     LOG.error("Class WordFrequencyLearning.WordFrequencyMapper function[map], error:" + e);
@@ -51,19 +57,13 @@ public class WordFrequencyLearning {
         @Override
         public void reduce(
                 Text key, Iterable<IntWritable> values, Context context) {
-            Iterator<IntWritable> iterator = values.iterator();
-            int count = 0;
-            if (WordAnalysis.isPunctuation(key.toString().charAt(0))) {
-                return;
-            }
-            if (!WordAnalysis.isChinese(key.toString().charAt(0))) {
-                return;
-            }
-            while (iterator.hasNext()) {
-                int value = iterator.next().get();
-                count += value;
-            }
             try {
+                Iterator<IntWritable> iterator = values.iterator();
+                int count = 0;
+                while (iterator.hasNext()) {
+                    int value = iterator.next().get();
+                    count += value;
+                }
                 context.write(key, new IntWritable(count));
             } catch (Exception e) {
                 LOG.error("Class WordFrequencyLearning.WordFrequencyReducer function[reduce], error:" + e);
