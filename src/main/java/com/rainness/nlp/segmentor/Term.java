@@ -8,4 +8,9 @@ public class Term {
     private String value;
 
     public Term() {}
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

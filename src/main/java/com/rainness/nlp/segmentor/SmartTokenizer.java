@@ -36,12 +36,10 @@ public class SmartTokenizer<T> implements Tokenizer<T> {
     public List<T> tokenizer(T src, Class<T> clazz) {
         List<T> termList = Lists.newLinkedList();
         try {
-            if (clazz == String.class) {
-                String dst = (String) src;
-                List<String> segList = segmentor.segmentString(dst);
-                for (String term : segList) {
-                    termList.add((T) term);
-                }
+            String dst = (String) src;
+            List<String> segList = segmentor.segmentString(dst);
+            for (String term : segList) {
+                termList.add((T) term);
             }
         } catch (Exception e) {
             LOG.error("Class SmartTokenizer function[tokenizer] error:" + e);
