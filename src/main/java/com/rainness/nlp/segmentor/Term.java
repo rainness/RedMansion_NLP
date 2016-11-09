@@ -7,7 +7,9 @@ public class Term {
 
     private String value;
 
-    public Term() {}
+    public Term(String value) {
+        this.value = value;
+    }
 
     @Override
     public String toString() {

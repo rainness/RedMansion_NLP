@@ -46,4 +46,13 @@ public class SmartTokenizer<T> implements Tokenizer<T> {
         }
         return termList;
     }
+
+    public Sentence tokenizer(String source) {
+        Sentence sentence = new Sentence();
+        List<String> segList = segmentor.segmentString(source);
+        for (String term : segList) {
+            sentence.addTerm(term);
+        }
+        return sentence;
+    }
 }

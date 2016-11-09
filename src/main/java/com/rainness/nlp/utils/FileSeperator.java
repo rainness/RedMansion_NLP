@@ -8,4 +8,5 @@ public interface FileSeperator {
     public static final String SPACE_SEPERATOR = " ";
     public static final String COMMA_SEPERATOR = ",";
     public static final String TAB_SEPERATOR = "\t";
+    public static final String RETURN_SEPERATOR = "\n";
 }
